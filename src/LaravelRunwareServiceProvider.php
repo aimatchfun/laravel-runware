@@ -10,7 +10,7 @@ class LaravelRunwareServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('runware', function ($app) {
-            return new Runware(config_path('runware::api_key'));
+            return new Runware(config('runware::api_key'));
         });
     }
 
