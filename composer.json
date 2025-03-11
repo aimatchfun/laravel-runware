@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/support": "^10.0",
+        "illuminate/support": "^11.0",
         "daavelar/php-runware-sdk": "^1.0"
     },
     "extra": {
