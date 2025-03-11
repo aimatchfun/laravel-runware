@@ -1,6 +1,6 @@
 {
     "name": "daavelar/laravel-runware",
-    "description": "An wrapper for php-runware-sdk",
+    "description": "A wrapper for php-runware-sdk",
     "autoload": {
         "psr-4": {
             "Daavelar\\LaravelRunware\\": "src/"
