@@ -1,0 +1,27 @@
+{
+    "name": "daavelar/laravel-runware",
+    "description": "An wrapper for php-runware-sdk",
+    "autoload": {
+        "psr-4": {
+            "Daavelar\\LaravelRunware\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "diego.avelar",
+            "email": "diegoarmando2011@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^10.0",
+        "daavelar/php-runware-sdk": "^1.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Daavelar\\LaravelRunware\\LaravelRunwareServiceProvider"
+            ]
+        }
+    }
+}
