@@ -1,6 +1,6 @@
 <?php
 
-namespace Daavelar\LaravelRunware;
+namespace AiMatchFun\LaravelRunware;
 
 use Illuminate\Support\ServiceProvider;
 use AIMatchFun\PhpRunwareSDK\Runware;

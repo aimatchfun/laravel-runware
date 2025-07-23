@@ -33,7 +33,7 @@ composer require aimatchfun/laravel-runware
 After installation, publish the configuration file:
 
 ```bash
-php artisan vendor:publish --provider="Daavelar\LaravelRunware\LaravelRunwareServiceProvider"
+php artisan vendor:publish --provider="AiMatchFun\LaravelRunware\LaravelRunwareServiceProvider"
 ```
 
 This will create a `config/runware.php` configuration file in your application.
@@ -53,7 +53,7 @@ You can use the Runware facade to access all the methods from the PHP Runware SD
 ```php
 use Runware;
 // or
-use Daavelar\LaravelRunware\LaravelRunwareFacade as Runware;
+use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
 
 // Example: Generate an image
 $response = Runware::imageInference([

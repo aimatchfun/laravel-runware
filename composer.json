@@ -7,7 +7,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Daavelar\\LaravelRunware\\": "src/"
+            "AiMatchFun\\LaravelRunware\\": "src/"
         }
     },
     "authors": [
@@ -35,10 +35,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Daavelar\\LaravelRunware\\LaravelRunwareServiceProvider"
+                "AiMatchFun\\LaravelRunware\\LaravelRunwareServiceProvider"
             ],
             "aliases": {
-                "Runware": "Daavelar\\LaravelRunware\\LaravelRunwareFacade"
+                "Runware": "AiMatchFun\\LaravelRunware\\LaravelRunwareFacade"
             }
         }
     },
