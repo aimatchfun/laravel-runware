@@ -69,7 +69,7 @@ $response = Runware::imageInference([
 You can also inject the Runware instance directly:
 
 ```php
-use Daavelar\PhpRunwareSDK\Runware;
+use AIMatchFun\PhpRunwareSDK\Runware;
 
 class ImageController extends Controller
 {

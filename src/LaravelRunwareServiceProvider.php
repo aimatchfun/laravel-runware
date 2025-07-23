@@ -3,7 +3,7 @@
 namespace Daavelar\LaravelRunware;
 
 use Illuminate\Support\ServiceProvider;
-use Daavelar\PhpRunwareSDK\Runware;
+use AIMatchFun\PhpRunwareSDK\Runware;
 
 class LaravelRunwareServiceProvider extends ServiceProvider
 {
