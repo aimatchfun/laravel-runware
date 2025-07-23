@@ -48,9 +48,11 @@ RUNWARE_API_KEY=your-api-key-here
 
 ### Using the Facade
 
-You can use the Runware facade to access all the methods from the PHP Runware SDK:
+You can use the Runware facade to access all the methods from the PHP Runware SDK. The package automatically registers a `Runware` alias, so you can use it directly:
 
 ```php
+use Runware;
+// or
 use Daavelar\LaravelRunware\LaravelRunwareFacade as Runware;
 
 // Example: Generate an image
@@ -119,7 +121,7 @@ For a complete list of available methods and their parameters, please refer to t
 ### Basic Image Generation
 
 ```php
-use Daavelar\LaravelRunware\LaravelRunwareFacade as Runware;
+use Runware;
 
 $images = Runware::imageInference([
     'positivePrompt' => 'A serene lake with mountains in the background',
@@ -140,7 +142,7 @@ foreach ($images as $image) {
 ### Image Upscaling
 
 ```php
-use Daavelar\LaravelRunware\LaravelRunwareFacade as Runware;
+use Runware;
 
 $upscaled = Runware::imageUpscale([
     'inputImage' => 'https://example.com/image.jpg',
@@ -151,7 +153,7 @@ $upscaled = Runware::imageUpscale([
 ### Background Removal
 
 ```php
-use Daavelar\LaravelRunware\LaravelRunwareFacade as Runware;
+use Runware;
 
 $result = Runware::imageBackgroundRemoval([
     'inputImage' => 'https://example.com/image-with-background.jpg',
@@ -163,7 +165,8 @@ $result = Runware::imageBackgroundRemoval([
 The package throws exceptions for API errors. It's recommended to wrap your calls in try-catch blocks:
 
 ```php
-use Daavelar\LaravelRunware\LaravelRunwareFacade as Runware;
+use Runware;
+use Illuminate\Support\Facades\Log;
 
 try {
     $response = Runware::imageInference([
@@ -181,7 +184,7 @@ try {
 When writing tests for code that uses this package, you can mock the Runware facade:
 
 ```php
-use Daavelar\LaravelRunware\LaravelRunwareFacade as Runware;
+use Runware;
 
 Runware::shouldReceive('imageInference')
     ->once()

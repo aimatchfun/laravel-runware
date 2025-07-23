@@ -1,6 +1,10 @@
 {
     "name": "daavelar/laravel-runware",
-    "description": "A wrapper for php-runware-sdk",
+    "description": "A Laravel wrapper for the PHP Runware SDK - AI image generation made easy",
+    "type": "library",
+    "keywords": ["laravel", "runware", "ai", "image-generation", "artificial-intelligence", "php", "sdk"],
+    "homepage": "https://github.com/daavelar/laravel-runware",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Daavelar\\LaravelRunware\\": "src/"
@@ -8,8 +12,10 @@
     },
     "authors": [
         {
-            "name": "diego.avelar",
-            "email": "diegoarmando2011@gmail.com"
+            "name": "Diego Avelar",
+            "email": "diegoarmando2011@gmail.com",
+            "homepage": "https://github.com/daavelar",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -17,11 +23,28 @@
         "illuminate/support": "^11.0|^12.0",
         "daavelar/php-runware-sdk": "^1.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0|^11.0",
+        "orchestra/testbench": "^9.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Daavelar\\LaravelRunware\\LaravelRunwareServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Runware": "Daavelar\\LaravelRunware\\LaravelRunwareFacade"
+            }
         }
-    }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
