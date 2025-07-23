@@ -1,8 +1,8 @@
 # Laravel Runware
 
-[![Latest Stable Version](https://poser.pugx.org/daavelar/laravel-runware/v/stable)](https://packagist.org/packages/daavelar/laravel-runware)
-[![Total Downloads](https://poser.pugx.org/daavelar/laravel-runware/downloads)](https://packagist.org/packages/daavelar/laravel-runware)
-[![License](https://poser.pugx.org/daavelar/laravel-runware/license)](https://packagist.org/packages/daavelar/laravel-runware)
+[![Latest Stable Version](https://poser.pugx.org/aimatchfun/laravel-runware/v/stable)](https://packagist.org/packages/aimatchfun/laravel-runware)
+[![Total Downloads](https://poser.pugx.org/aimatchfun/laravel-runware/downloads)](https://packagist.org/packages/aimatchfun/laravel-runware)
+[![License](https://poser.pugx.org/aimatchfun/laravel-runware/license)](https://packagist.org/packages/aimatchfun/laravel-runware)
 
 A Laravel wrapper for the [PHP Runware SDK](https://github.com/aimatchfun/php-runware-sdk), providing a simple and elegant way to integrate Runware AI services into your Laravel applications.
 
@@ -25,7 +25,7 @@ A Laravel wrapper for the [PHP Runware SDK](https://github.com/aimatchfun/php-ru
 You can install the package via Composer:
 
 ```bash
-composer require daavelar/laravel-runware
+composer require aimatchfun/laravel-runware
 ```
 
 ## Configuration
@@ -218,7 +218,7 @@ This package is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Support
 
-If you encounter any issues or have questions, please [open an issue](https://github.com/daavelar/laravel-runware/issues) on GitHub.
+If you encounter any issues or have questions, please [open an issue](https://github.com/aimatchfun/laravel-runware/issues) on GitHub.
 
 ## See Also
 

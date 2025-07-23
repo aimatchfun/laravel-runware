@@ -1,9 +1,9 @@
 {
-    "name": "daavelar/laravel-runware",
+    "name": "aimatchfun/laravel-runware",
     "description": "A Laravel wrapper for the PHP Runware SDK - AI image generation made easy",
     "type": "library",
     "keywords": ["laravel", "runware", "ai", "image-generation", "artificial-intelligence", "php", "sdk"],
-    "homepage": "https://github.com/daavelar/laravel-runware",
+    "homepage": "https://github.com/aimatchfun/laravel-runware",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -21,7 +21,7 @@
     "require": {
         "php": "^8.0",
         "illuminate/support": "^11.0|^12.0",
-        "daavelar/php-runware-sdk": "^1.0"
+        "aimatchfun/php-runware-sdk": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0",
