@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c29ab99923884e0ba7e29e8078f49069",
+    "content-hash": "ea95d9e0978c9716f8c0cfe91e972611",
     "packages": [
         {
             "name": "aimatchfun/php-runware-sdk",
@@ -192,91 +192,6 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
-        },
-        {
-            "name": "daavelar/laravel-runware",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/daavelar/laravel-runware.git",
-                "reference": "9fe5757af98c8b14a4f11e34557c0f545890b214"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/daavelar/laravel-runware/zipball/9fe5757af98c8b14a4f11e34557c0f545890b214",
-                "reference": "9fe5757af98c8b14a4f11e34557c0f545890b214",
-                "shasum": ""
-            },
-            "require": {
-                "daavelar/php-runware-sdk": "^1.0",
-                "illuminate/support": "^11.0|^12.0",
-                "php": "^8.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Daavelar\\LaravelRunware\\LaravelRunwareServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Daavelar\\LaravelRunware\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "diego.avelar",
-                    "email": "diegoarmando2011@gmail.com"
-                }
-            ],
-            "description": "A wrapper for php-runware-sdk",
-            "support": {
-                "issues": "https://github.com/daavelar/laravel-runware/issues",
-                "source": "https://github.com/daavelar/laravel-runware/tree/main"
-            },
-            "time": "2025-05-13T18:35:19+00:00"
-        },
-        {
-            "name": "daavelar/php-runware-sdk",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/daavelar/php-runware-sdk.git",
-                "reference": "b82501e3e50ac6b4cdd0f6efd8ba7a58827588c5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/daavelar/php-runware-sdk/zipball/b82501e3e50ac6b4cdd0f6efd8ba7a58827588c5",
-                "reference": "b82501e3e50ac6b4cdd0f6efd8ba7a58827588c5",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "guzzlehttp/guzzle": "^7.9",
-                "ramsey/uuid": "^4.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Daavelar\\PhpRunwareSDK\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "diego.avelar",
-                    "email": "diegoarmando2011@gmail.com"
-                }
-            ],
-            "support": {
-                "issues": "https://github.com/daavelar/php-runware-sdk/issues",
-                "source": "https://github.com/daavelar/php-runware-sdk/tree/1.1.0"
-            },
-            "time": "2025-03-14T19:45:04+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -8858,9 +8773,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "daavelar/laravel-runware": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
