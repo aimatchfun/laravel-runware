@@ -1,51 +1,59 @@
 {
-    "name": "aimatchfun/laravel-runware",
-    "description": "A Laravel wrapper for the PHP Runware SDK - AI image generation made easy",
-    "version": "1.0.1",
-    "type": "library",
-    "keywords": ["laravel", "runware", "ai", "image-generation", "artificial-intelligence", "php", "sdk"],
-    "homepage": "https://github.com/aimatchfun/laravel-runware",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "AiMatchFun\\LaravelRunware\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Diego Avelar",
-            "email": "diegoarmando2011@gmail.com",
-            "homepage": "https://github.com/aimatchfun",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": "^8.2",
-        "illuminate/support": "^11.0|^12.0",
-        "aimatchfun/php-runware-sdk": "^1.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^10.0|^11.0",
-        "orchestra/testbench": "^10.0"
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "AiMatchFun\\LaravelRunware\\LaravelRunwareServiceProvider"
-            ],
-            "aliases": {
-                "Runware": "AiMatchFun\\LaravelRunware\\LaravelRunwareFacade"
-            }
-        }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+  "name": "aimatchfun/laravel-runware",
+  "description": "A Laravel wrapper for the PHP Runware SDK - AI image generation made easy",
+  "version": "1.0.1",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "runware",
+    "ai",
+    "image-generation",
+    "artificial-intelligence",
+    "php",
+    "sdk"
+  ],
+  "homepage": "https://github.com/aimatchfun/laravel-runware",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "AiMatchFun\\LaravelRunware\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Diego Avelar",
+      "email": "diego@aimatch.fun",
+      "homepage": "https://github.com/aimatchfun",
+      "role": "CEO"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "illuminate/support": "^11.0|^12.0",
+    "aimatchfun/php-runware-sdk": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0|^11.0",
+    "orchestra/testbench": "^10.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "AiMatchFun\\LaravelRunware\\LaravelRunwareServiceProvider"
+      ],
+      "aliases": {
+        "Runware": "AiMatchFun\\LaravelRunware\\LaravelRunwareFacade"
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }
