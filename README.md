@@ -12,12 +12,12 @@ A Laravel wrapper for the [PHP Runware SDK](https://github.com/aimatchfun/php-ru
 - 🎨 Full support for Runware AI image generation capabilities
 - ⚙️ Simple configuration via environment variables
 - 🔧 Service Provider and Facade included
-- 📦 Compatible with Laravel 11.x and 12.x
+- 📦 Compatible with Laravel 12.x
 
 ## Requirements
 
-- PHP ^8.2
-- Laravel ^11.0 or ^12.0
+- PHP ^8.3
+- Laravel ^12.0
 - A valid Runware API key
 
 ## Installation
