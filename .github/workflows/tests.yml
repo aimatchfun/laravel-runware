@@ -49,7 +49,8 @@ jobs:
       - name: Install dependencies
         run: |
           if [ "${{ matrix.laravel-version }}" == "^11.0" ]; then
-            composer require "illuminate/support:${{ matrix.laravel-version }}" "orchestra/testbench:^9.0" --no-interaction
+            composer require "illuminate/support:${{ matrix.laravel-version }}" --no-interaction
+            composer require "orchestra/testbench:^9.0" --dev --no-interaction
           else
             composer require "illuminate/support:${{ matrix.laravel-version }}" --no-interaction
           fi
