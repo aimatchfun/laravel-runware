@@ -46,11 +46,5 @@
         "sort-packages": true
     },
     "minimum-stability": "stable",
-    "prefer-stable": true,
-    "repositories": {
-        "php-runware-sdk": {
-            "type": "path",
-            "url": "../php-runware-sdk"
-        }
-    }
+    "prefer-stable": true
 }
