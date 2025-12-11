@@ -10,6 +10,7 @@ A Laravel wrapper for the [PHP Runware SDK](https://github.com/aimatchfun/php-ru
 
 - 🚀 Easy integration with Laravel
 - 🎨 Full support for Runware AI image generation capabilities
+- 🖼️ **Inpainting**: Selective image editing by modifying specific regions
 - ⚙️ Simple configuration via environment variables
 - 🔧 Service Provider and Facade included
 - 📦 Compatible with Laravel 12.x
@@ -46,24 +47,31 @@ RUNWARE_API_KEY=your-api-key-here
 
 ## Usage
 
-### Using the Facade
+### Using the Facades
 
-You can use the Runware facade to access all the methods from the PHP Runware SDK. The package automatically registers a `Runware` alias, so you can use it directly:
+The package provides two facades: `RunwareImageInference` and `RunwareInpainting`. You can use them directly:
 
 ```php
-use Runware;
-// or
-use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
+use RunwareImageInference;
+use RunwareInpainting;
+use AiMatchFun\PhpRunwareSDK\RunwareModel;
+use AiMatchFun\PhpRunwareSDK\OutputType;
 
-// Example: Generate an image
-$response = Runware::imageInference([
-    'positivePrompt' => 'A beautiful sunset over the mountains',
-    'model' => 'runware:100@1',
-    'numberResults' => 1,
-    'outputFormat' => 'PNG',
-    'height' => 512,
-    'width' => 512,
-]);
+// Example: Generate an image using ImageInference
+$imageUrl = RunwareImageInference::positivePrompt('A beautiful sunset over the mountains')
+    ->negativePrompt('blur, distortion')
+    ->width(512)
+    ->height(512)
+    ->model(RunwareModel::REAL_DREAM_SDXL_PONY_14)
+    ->outputType(OutputType::URL)
+    ->run();
+
+// Example: Inpainting
+$inpaintedImage = RunwareInpainting::seedImage('image-uuid')
+    ->maskImage('mask-uuid')
+    ->positivePrompt('a serene beach at sunset')
+    ->strength(0.8)
+    ->run();
 ```
 
 ### Using Dependency Injection
@@ -71,23 +79,28 @@ $response = Runware::imageInference([
 You can also inject the Runware instance directly:
 
 ```php
-use AiMatchFun\PhpRunwareSDK\Runware;
+use AiMatchFun\PhpRunwareSDK\TextToImage;
+use AiMatchFun\PhpRunwareSDK\Inpainting;
+use AiMatchFun\PhpRunwareSDK\RunwareModel;
+use AiMatchFun\PhpRunwareSDK\OutputType;
 
 class ImageController extends Controller
 {
     public function __construct(
-        private Runware $runware
+        private TextToImage $runware,
+        private Inpainting $inpainting
     ) {}
 
     public function generate()
     {
-        $response = $this->runware->imageInference([
-            'positivePrompt' => 'A futuristic cityscape',
-            'model' => 'runware:100@1',
-            'numberResults' => 1,
-        ]);
+        $imageUrl = $this->runware
+            ->positivePrompt('A futuristic cityscape')
+            ->negativePrompt('blur')
+            ->model(RunwareModel::REAL_DREAM_SDXL_PONY_14)
+            ->outputType(OutputType::URL)
+            ->run();
 
-        return response()->json($response);
+        return response()->json(['imageUrl' => $imageUrl]);
     }
 }
 ```
@@ -95,19 +108,33 @@ class ImageController extends Controller
 ### Using the Service Container
 
 ```php
-$runware = app('runware');
+use AiMatchFun\PhpRunwareSDK\RunwareModel;
+use AiMatchFun\PhpRunwareSDK\OutputType;
 
-$response = $runware->imageInference([
-    'positivePrompt' => 'A magical forest',
-    'model' => 'runware:100@1',
-]);
+// ImageInference
+$runware = app('runware.imageInference');
+$imageUrl = $runware->positivePrompt('A magical forest')
+    ->negativePrompt('blur')
+    ->model(RunwareModel::REAL_DREAM_SDXL_PONY_14)
+    ->outputType(OutputType::URL)
+    ->run();
+
+// Inpainting
+$inpainting = app('runware.inpainting');
+$inpaintedImage = $inpainting->seedImage('image-uuid')
+    ->maskImage('mask-uuid')
+    ->positivePrompt('A serene beach at sunset')
+    ->negativePrompt('blur, distortion')
+    ->strength(0.8)
+    ->run();
 ```
 
 ## Available Methods
 
 This package provides access to all methods available in the PHP Runware SDK. Some of the main features include:
 
-- **Image Generation**: Create AI-generated images from text prompts
+- **Text-to-Image**: Create AI-generated images from text prompts
+- **Inpainting**: Selective image editing by modifying specific regions of an image
 - **Image Enhancement**: Upscale and enhance existing images
 - **Background Removal**: Remove backgrounds from images
 - **Image-to-Image**: Transform images based on prompts
@@ -118,61 +145,77 @@ For a complete list of available methods and their parameters, please refer to t
 
 ## Examples
 
-### Basic Image Generation
+### Basic Image Generation (Text-to-Image)
 
 ```php
 use Runware;
+use AiMatchFun\PhpRunwareSDK\RunwareModel;
+use AiMatchFun\PhpRunwareSDK\OutputType;
 
-$images = Runware::imageInference([
-    'positivePrompt' => 'A serene lake with mountains in the background',
-    'negativePrompt' => 'blur, distortion',
-    'model' => 'runware:100@1',
-    'numberResults' => 4,
-    'outputFormat' => 'JPEG',
-    'height' => 1024,
-    'width' => 1024,
-]);
+use RunwareImageInference;
 
-foreach ($images as $image) {
-    // Process each generated image
-    echo $image['imageURL'];
-}
+$imageUrl = RunwareImageInference::positivePrompt('A serene lake with mountains in the background')
+    ->negativePrompt('blur, distortion')
+    ->width(1024)
+    ->height(1024)
+    ->model(RunwareModel::REAL_DREAM_SDXL_PONY_14)
+    ->outputType(OutputType::URL)
+    ->numberResults(4)
+    ->run();
+
+echo $imageUrl;
 ```
 
-### Image Upscaling
+### Inpainting
+
+Inpainting allows you to selectively edit specific regions of an image by providing a seed image and a mask image:
 
 ```php
-use Runware;
+use RunwareInpainting;
+use AiMatchFun\PhpRunwareSDK\RunwareModel;
+use AiMatchFun\PhpRunwareSDK\OutputType;
 
-$upscaled = Runware::imageUpscale([
-    'inputImage' => 'https://example.com/image.jpg',
-    'upscaleFactor' => 2,
-]);
+$inpaintedImage = RunwareInpainting::seedImage('59a2edc2-45e6-429f-be5f-7ded59b92046') // Image UUID or URL
+    ->maskImage('5988e195-8100-4b91-b07c-c7096d0861aa') // Mask UUID or URL
+    ->positivePrompt('a serene beach at sunset')
+    ->negativePrompt('blur, distortion')
+    ->strength(0.8) // Strength of the inpainting effect (0.0 to 1.0)
+    ->maskMargin(64) // Extra context pixels around masked region (32-128)
+    ->model(RunwareModel::REAL_DREAM_SDXL_PONY_14)
+    ->width(1024)
+    ->height(1024)
+    ->outputType(OutputType::URL)
+    ->run();
+
+echo $inpaintedImage;
 ```
 
-### Background Removal
+**Inpainting Parameters:**
+- `seedImage()`: The original image you wish to edit (UUID or URL)
+- `maskImage()`: Defines the area to be modified (UUID or URL)
+- `positivePrompt()`: Describes the desired outcome for the masked area
+- `strength()`: Strength of the inpainting effect (0.0 to 1.0, default: 0.8)
+- `maskMargin()`: Adds extra context pixels around the masked region (32-128 pixels)
 
-```php
-use Runware;
+For more details about inpainting, see the [Runware Inpainting Documentation](https://runware.ai/docs/en/image-inference/inpainting).
 
-$result = Runware::imageBackgroundRemoval([
-    'inputImage' => 'https://example.com/image-with-background.jpg',
-]);
-```
 
 ## Error Handling
 
 The package throws exceptions for API errors. It's recommended to wrap your calls in try-catch blocks:
 
 ```php
-use Runware;
+use RunwareImageInference;
+use AiMatchFun\PhpRunwareSDK\RunwareModel;
+use AiMatchFun\PhpRunwareSDK\OutputType;
 use Illuminate\Support\Facades\Log;
 
 try {
-    $response = Runware::imageInference([
-        'positivePrompt' => 'A beautiful landscape',
-        'model' => 'runware:100@1',
-    ]);
+    $imageUrl = RunwareImageInference::positivePrompt('A beautiful landscape')
+        ->negativePrompt('blur')
+        ->model(RunwareModel::REAL_DREAM_SDXL_PONY_14)
+        ->outputType(OutputType::URL)
+        ->run();
 } catch (\Exception $e) {
     // Handle the error
     Log::error('Runware API error: ' . $e->getMessage());
@@ -184,18 +227,31 @@ try {
 When writing tests for code that uses this package, you can mock the Runware facade:
 
 ```php
-use Runware;
+use RunwareImageInference;
+use RunwareInpainting;
 
-Runware::shouldReceive('imageInference')
+// Mock ImageInference
+RunwareImageInference::shouldReceive('positivePrompt')
     ->once()
-    ->with([
-        'positivePrompt' => 'Test prompt',
-        'model' => 'runware:100@1',
-    ])
-    ->andReturn([
-        ['imageURL' => 'https://example.com/test-image.jpg']
-    ]);
+    ->with('Test prompt')
+    ->andReturnSelf();
+
+RunwareImageInference::shouldReceive('run')
+    ->once()
+    ->andReturn('https://example.com/test-image.jpg');
+
+// Mock Inpainting
+RunwareInpainting::shouldReceive('seedImage')
+    ->once()
+    ->with('image-uuid')
+    ->andReturnSelf();
+
+RunwareInpainting::shouldReceive('run')
+    ->once()
+    ->andReturn('https://example.com/inpainted-image.jpg');
 ```
+
+For more detailed testing examples, see the [tests documentation](tests/README.md).
 
 ## Contributing
 

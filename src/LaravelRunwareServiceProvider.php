@@ -6,13 +6,18 @@ namespace AiMatchFun\LaravelRunware;
 
 use Illuminate\Support\ServiceProvider;
 use AiMatchFun\PhpRunwareSDK\TextToImage;
+use AiMatchFun\PhpRunwareSDK\Inpainting;
 
 class LaravelRunwareServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind('runware', function ($app) {
+        $this->app->bind('runware.imageInference', function ($app) {
             return new TextToImage(config('runware.api_key'));
+        });
+
+        $this->app->bind('runware.inpainting', function ($app) {
+            return new Inpainting(config('runware.api_key'));
         });
     }
 
