@@ -1,6 +1,5 @@
 {
   "name": "aimatchfun/laravel-runware",
-  "version": "3.0.0",
   "description": "A Laravel wrapper for the PHP Runware SDK - AI image generation made easy",
   "type": "library",
   "keywords": [
