@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8f4c05b9238435be081c8c3da02c926",
+    "content-hash": "d4f19e5420e46f61c3b8c27e11865f2d",
     "packages": [
         {
             "name": "aimatchfun/php-runware-sdk",
-            "version": "v1.0.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aimatchfun/php-runware-sdk.git",
-                "reference": "48c6f889304c720019798b63595d791a299fe6e2"
+                "reference": "45cb6a18b4c1d6bb7a802871469e3dab7ee9c5a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aimatchfun/php-runware-sdk/zipball/48c6f889304c720019798b63595d791a299fe6e2",
-                "reference": "48c6f889304c720019798b63595d791a299fe6e2",
+                "url": "https://api.github.com/repos/aimatchfun/php-runware-sdk/zipball/45cb6a18b4c1d6bb7a802871469e3dab7ee9c5a1",
+                "reference": "45cb6a18b4c1d6bb7a802871469e3dab7ee9c5a1",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^7.9",
                 "illuminate/http": "^12.15",
-                "php": "^8.0",
+                "php": "^8.4",
                 "ramsey/uuid": "^4.7"
             },
             "require-dev": {
@@ -34,7 +34,12 @@
             "autoload": {
                 "psr-4": {
                     "AiMatchFun\\PhpRunwareSDK\\": "src/"
-                }
+                },
+                "classmap": [
+                    "src/Enums/",
+                    "src/Services/",
+                    "src/Models/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -60,9 +65,9 @@
             ],
             "support": {
                 "issues": "https://github.com/aimatchfun/php-runware-sdk/issues",
-                "source": "https://github.com/aimatchfun/php-runware-sdk/tree/v1.0.0"
+                "source": "https://github.com/aimatchfun/php-runware-sdk/tree/v2.1.1"
             },
-            "time": "2025-07-23T20:55:40+00:00"
+            "time": "2025-12-11T17:55:48+00:00"
         },
         {
             "name": "brick/math",
@@ -1112,16 +1117,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.41.1",
+            "version": "v12.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3e229b05935fd0300c632fb1f718c73046d664fc"
+                "reference": "509b33095564c5165366d81bbaa0afaac28abe75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3e229b05935fd0300c632fb1f718c73046d664fc",
-                "reference": "3e229b05935fd0300c632fb1f718c73046d664fc",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/509b33095564c5165366d81bbaa0afaac28abe75",
+                "reference": "509b33095564c5165366d81bbaa0afaac28abe75",
                 "shasum": ""
             },
             "require": {
@@ -1209,6 +1214,7 @@
                 "illuminate/process": "self.version",
                 "illuminate/queue": "self.version",
                 "illuminate/redis": "self.version",
+                "illuminate/reflection": "self.version",
                 "illuminate/routing": "self.version",
                 "illuminate/session": "self.version",
                 "illuminate/support": "self.version",
@@ -1233,7 +1239,7 @@
                 "league/flysystem-sftp-v3": "^3.25.1",
                 "mockery/mockery": "^1.6.10",
                 "opis/json-schema": "^2.4.1",
-                "orchestra/testbench-core": "^10.8.0",
+                "orchestra/testbench-core": "^10.8.1",
                 "pda/pheanstalk": "^5.0.6|^7.0.0",
                 "php-http/discovery": "^1.15",
                 "phpstan/phpstan": "^2.0",
@@ -1295,6 +1301,7 @@
                     "src/Illuminate/Filesystem/functions.php",
                     "src/Illuminate/Foundation/helpers.php",
                     "src/Illuminate/Log/functions.php",
+                    "src/Illuminate/Reflection/helpers.php",
                     "src/Illuminate/Support/functions.php",
                     "src/Illuminate/Support/helpers.php"
                 ],
@@ -1303,7 +1310,8 @@
                     "Illuminate\\Support\\": [
                         "src/Illuminate/Macroable/",
                         "src/Illuminate/Collections/",
-                        "src/Illuminate/Conditionable/"
+                        "src/Illuminate/Conditionable/",
+                        "src/Illuminate/Reflection/"
                     ]
                 }
             },
@@ -1327,7 +1335,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-12-03T01:02:13+00:00"
+            "time": "2025-12-09T15:51:23+00:00"
         },
         {
             "name": "laravel/prompts",
