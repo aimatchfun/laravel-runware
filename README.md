@@ -201,25 +201,52 @@ For more details about inpainting, see the [Runware Inpainting Documentation](ht
 
 ### Image Upload
 
-You can upload images to Runware for use in various operations:
+You can upload images to Runware for use in various operations. The package provides two methods for uploading images:
+
+**Upload from Local File Path:**
 
 ```php
-use AiMatchFun\PhpRunwareSDK\ImageUpload;
+use RunwareImageUpload;
 
-// Upload an image from a file path
-$imageUpload = app('runware.imageUpload');
+// Upload an image from a local file path (automatically converts to base64)
+$imageUUID = RunwareImageUpload::uploadFromLocalPath('/path/to/image.jpg')
+    ->run();
 
-$uploadedImage = $imageUpload->uploadImageFromPath('/path/to/image.jpg');
+echo $imageUUID; // Use this UUID in inpainting or other image operations
+```
 
-// The response contains the image UUID that can be used in other operations
-$imageUUID = $uploadedImage->getImageUUID();
+**Upload from URL:**
+
+```php
+use RunwareImageUpload;
+
+// Upload an image from a public URL
+$imageUUID = RunwareImageUpload::uploadFromURL('https://example.com/image.jpg')
+    ->run();
 
 echo $imageUUID; // Use this UUID in inpainting or other image operations
 ```
 
 **Upload Methods:**
-- `uploadImageFromPath()`: Upload an image from a local file path
+- `uploadFromLocalPath(string $path)`: Upload an image from a local file path. The file is automatically converted to base64 format.
+- `uploadFromURL(string $url)`: Upload an image from a public URL.
 - The uploaded image can be referenced by its UUID in subsequent operations like inpainting, image enhancement, etc.
+
+**Using Dependency Injection:**
+
+```php
+use AiMatchFun\PhpRunwareSDK\ImageUpload;
+
+$imageUpload = app('runware.imageUpload');
+
+// From local path
+$imageUUID = $imageUpload->uploadFromLocalPath('/path/to/image.jpg')
+    ->run();
+
+// From URL
+$imageUUID = $imageUpload->uploadFromURL('https://example.com/image.jpg')
+    ->run();
+```
 
 For more details about image upload, see the [Runware Image Upload Documentation](https://runware.ai/docs/en/image-inference/image-upload).
 

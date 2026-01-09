@@ -72,7 +72,7 @@ class RunwareImageUploadFacadeTest extends TestbenchTestCase
         $imageUpload->setMockClient($mockClient);
 
         $result = $imageUpload
-            ->image('https://example.com/image.png')
+            ->uploadFromURL('https://example.com/image.png')
             ->run();
 
         $this->assertEquals('test-image-uuid-12345', $result);
@@ -96,26 +96,53 @@ class RunwareImageUploadFacadeTest extends TestbenchTestCase
         $imageUpload = new ImageUploadWrapper('test-api-key');
         $imageUpload->setMockClient($mockClient);
 
+        // Create a temporary image file for testing
+        $tempFile = sys_get_temp_dir() . '/test_image_' . uniqid() . '.png';
         $base64Image = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+        file_put_contents($tempFile, base64_decode($base64Image));
 
-        $result = $imageUpload
-            ->image($base64Image)
-            ->run();
+        try {
+            $result = $imageUpload
+                ->uploadFromLocalPath($tempFile)
+                ->run();
+
+            $this->assertEquals('test-image-uuid-base64', $result);
+        } finally {
+            if (file_exists($tempFile)) {
+                unlink($tempFile);
+            }
+        }
 
         $this->assertEquals('test-image-uuid-base64', $result);
     }
 
-    public function testImageUploadThrowsExceptionWhenImageIsEmpty(): void
+    public function testImageUploadThrowsExceptionWhenImagePathIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
         $imageUpload = $this->app->make('runware.imageUpload');
-        $imageUpload->image('')->run();
+        $imageUpload->uploadFromLocalPath('')->run();
+    }
+
+    public function testImageUploadThrowsExceptionWhenImageURLIsEmpty(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $imageUpload = $this->app->make('runware.imageUpload');
+        $imageUpload->uploadFromURL('')->run();
+    }
+
+    public function testImageUploadThrowsExceptionWhenFileDoesNotExist(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $imageUpload = $this->app->make('runware.imageUpload');
+        $imageUpload->uploadFromLocalPath('/nonexistent/file.png')->run();
     }
 
     public function testImageUploadCanBeMocked(): void
     {
-        \RunwareImageUpload::shouldReceive('image')
+        \RunwareImageUpload::shouldReceive('uploadFromURL')
             ->once()
             ->with('https://example.com/image.png')
             ->andReturnSelf();
@@ -124,7 +151,7 @@ class RunwareImageUploadFacadeTest extends TestbenchTestCase
             ->once()
             ->andReturn('mocked-uuid-12345');
 
-        $result = \RunwareImageUpload::image('https://example.com/image.png')
+        $result = \RunwareImageUpload::uploadFromURL('https://example.com/image.png')
             ->run();
 
         $this->assertEquals('mocked-uuid-12345', $result);
