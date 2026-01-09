@@ -199,6 +199,30 @@ echo $inpaintedImage;
 
 For more details about inpainting, see the [Runware Inpainting Documentation](https://runware.ai/docs/en/image-inference/inpainting).
 
+### Image Upload
+
+You can upload images to Runware for use in various operations:
+
+```php
+use AiMatchFun\PhpRunwareSDK\ImageUpload;
+
+// Upload an image from a file path
+$imageUpload = app('runware.imageUpload');
+
+$uploadedImage = $imageUpload->uploadImageFromPath('/path/to/image.jpg');
+
+// The response contains the image UUID that can be used in other operations
+$imageUUID = $uploadedImage->getImageUUID();
+
+echo $imageUUID; // Use this UUID in inpainting or other image operations
+```
+
+**Upload Methods:**
+- `uploadImageFromPath()`: Upload an image from a local file path
+- The uploaded image can be referenced by its UUID in subsequent operations like inpainting, image enhancement, etc.
+
+For more details about image upload, see the [Runware Image Upload Documentation](https://runware.ai/docs/en/image-inference/image-upload).
+
 
 ## Error Handling
 
