@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use AiMatchFun\PhpRunwareSDK\TextToImage;
 use AiMatchFun\PhpRunwareSDK\Inpainting;
 use AiMatchFun\PhpRunwareSDK\ImageUpload;
+use AiMatchFun\PhpRunwareSDK\PhotoMaker;
 
 class LaravelRunwareServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,10 @@ class LaravelRunwareServiceProvider extends ServiceProvider
 
         $this->app->bind('runware.imageUpload', function ($app) {
             return new ImageUpload(config('runware.api_key'));
+        });
+
+        $this->app->bind('runware.photoMaker', function ($app) {
+            return new PhotoMaker(config('runware.api_key'));
         });
     }
 
