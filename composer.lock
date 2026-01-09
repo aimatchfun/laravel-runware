@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4f19e5420e46f61c3b8c27e11865f2d",
+    "content-hash": "fa67520cab8bbd00882e15aef56060c7",
     "packages": [
         {
             "name": "aimatchfun/php-runware-sdk",
-            "version": "v2.1.1",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aimatchfun/php-runware-sdk.git",
-                "reference": "45cb6a18b4c1d6bb7a802871469e3dab7ee9c5a1"
+                "reference": "0ff7ed426e18021d3bbc3cb772bb3117dcda2a13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aimatchfun/php-runware-sdk/zipball/45cb6a18b4c1d6bb7a802871469e3dab7ee9c5a1",
-                "reference": "45cb6a18b4c1d6bb7a802871469e3dab7ee9c5a1",
+                "url": "https://api.github.com/repos/aimatchfun/php-runware-sdk/zipball/0ff7ed426e18021d3bbc3cb772bb3117dcda2a13",
+                "reference": "0ff7ed426e18021d3bbc3cb772bb3117dcda2a13",
                 "shasum": ""
             },
             "require": {
@@ -65,9 +65,9 @@
             ],
             "support": {
                 "issues": "https://github.com/aimatchfun/php-runware-sdk/issues",
-                "source": "https://github.com/aimatchfun/php-runware-sdk/tree/v2.1.1"
+                "source": "https://github.com/aimatchfun/php-runware-sdk/tree/v2.3.0"
             },
-            "time": "2025-12-11T17:55:48+00:00"
+            "time": "2026-01-09T18:30:30+00:00"
         },
         {
             "name": "brick/math",
