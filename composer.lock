@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49a02d96e321c19891f336dd29c4f55c",
+    "content-hash": "5e7a3d730f43e0c8cb3bfbc1fe4a5837",
     "packages": [
         {
             "name": "aimatchfun/php-runware-sdk",
@@ -8794,7 +8794,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3"
+        "php": "^8.4"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
