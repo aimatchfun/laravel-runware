@@ -11,6 +11,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use AiMatchFun\LaravelRunware\LaravelRunwareFacade;
 use AiMatchFun\PhpRunwareSDK\ModelAir;
 use AiMatchFun\PhpRunwareSDK\OutputType;
+use AiMatchFun\PhpRunwareSDK\RunwareResponse;
+use AiMatchFun\PhpRunwareSDK\RunwareImageResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -47,15 +49,24 @@ class ExampleTest extends TestCase
             ->with('blur')
             ->andReturnSelf();
 
+        $mockResponse = new \AiMatchFun\PhpRunwareSDK\RunwareResponse([
+            new \AiMatchFun\PhpRunwareSDK\RunwareImageResponse(
+                taskType: 'imageInference',
+                imageUUID: 'test-uuid',
+                taskUUID: 'test-task-uuid',
+                imageURL: 'https://example.com/image.png'
+            )
+        ]);
+
         \Runware::shouldReceive('run')
             ->once()
-            ->andReturn('https://example.com/image.png');
+            ->andReturn($mockResponse);
 
         $result = \Runware::positivePrompt('A beautiful sunset')
             ->negativePrompt('blur')
             ->run();
 
-        $this->assertEquals('https://example.com/image.png', $result);
+        $this->assertEquals('https://example.com/image.png', $result->first()?->imageURL);
     }
 
     public function testWithHttpMock()
@@ -78,7 +89,7 @@ class ExampleTest extends TestCase
             ->negativePrompt('blur')
             ->run();
 
-        $this->assertEquals('https://example.com/image.png', $result);
+        $this->assertEquals('https://example.com/image.png', $result->first()?->imageURL);
     }
 }
 */

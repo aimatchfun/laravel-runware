@@ -12,6 +12,8 @@ Os testes usam `Orchestra Testbench` para simular um ambiente Laravel completo.
 
 ```php
 use Runware;
+use AiMatchFun\PhpRunwareSDK\RunwareResponse;
+use AiMatchFun\PhpRunwareSDK\RunwareImageResponse;
 
 // Mockar métodos do facade
 \Runware::shouldReceive('positivePrompt')
@@ -24,13 +26,25 @@ use Runware;
     ->with('blur')
     ->andReturnSelf();
 
+$mockResponse = new RunwareResponse([
+    new RunwareImageResponse(
+        taskType: 'imageInference',
+        imageUUID: 'test-uuid',
+        taskUUID: 'test-task-uuid',
+        imageURL: 'https://example.com/image.png'
+    )
+]);
+
 \Runware::shouldReceive('run')
     ->once()
-    ->andReturn('https://example.com/image.png');
+    ->andReturn($mockResponse);
 
 $result = \Runware::positivePrompt('A beautiful sunset')
     ->negativePrompt('blur')
     ->run();
+
+// $result é uma instância de RunwareResponse
+$imageURL = $result->first()?->imageURL; // 'https://example.com/image.png'
 ```
 
 ### Opção 2: Mock do Serviço com HTTP Client Mockado
@@ -68,10 +82,13 @@ $mockResponse = new Response(200, [], json_encode([
 
 $mockHandler->append($mockResponse);
 
-// Usar o facade normalmente
-$result = \Runware::positivePrompt('A beautiful sunset')
-    ->negativePrompt('blur')
-    ->run();
+        // Usar o facade normalmente
+        $result = \Runware::positivePrompt('A beautiful sunset')
+            ->negativePrompt('blur')
+            ->run();
+        
+        // $result é uma instância de RunwareResponse
+        $imageURL = $result->first()?->imageURL;
 ```
 
 ### Opção 3: Usando Dependency Injection
@@ -94,7 +111,8 @@ class ImageController extends Controller
             ->positivePrompt('A beautiful sunset')
             ->run();
         
-        return response()->json(['image' => $result]);
+        // $result é uma instância de RunwareResponse
+        return response()->json(['image' => $result->first()?->imageURL]);
     }
 }
 
@@ -159,7 +177,9 @@ class ExampleTest extends TestCase
             ->negativePrompt('blur')
             ->run();
 
-        $this->assertEquals('https://example.com/image.png', $result);
+        // $result é uma instância de RunwareResponse
+        $this->assertInstanceOf(\AiMatchFun\PhpRunwareSDK\RunwareResponse::class, $result);
+        $this->assertEquals('https://example.com/image.png', $result->first()?->imageURL);
     }
 }
 ```

@@ -60,8 +60,10 @@ class RunwareImageUploadFacadeTest extends TestbenchTestCase
         // Mock response from Runware API
         $mockResponse = new Response(200, [], json_encode([
             'data' => [
-                'taskType' => 'imageUpload',
-                'imageUUID' => 'test-image-uuid-12345',
+                [
+                    'taskType' => 'imageUpload',
+                    'imageUUID' => 'test-image-uuid-12345',
+                ]
             ]
         ]));
 
@@ -86,8 +88,10 @@ class RunwareImageUploadFacadeTest extends TestbenchTestCase
 
         $mockResponse = new Response(200, [], json_encode([
             'data' => [
-                'taskType' => 'imageUpload',
-                'imageUUID' => 'test-image-uuid-base64',
+                [
+                    'taskType' => 'imageUpload',
+                    'imageUUID' => 'test-image-uuid-base64',
+                ]
             ]
         ]));
 
@@ -149,7 +153,7 @@ class RunwareImageUploadFacadeTest extends TestbenchTestCase
 
         \RunwareImageUpload::shouldReceive('run')
             ->once()
-            ->andReturn('mocked-uuid-12345');
+            ->andReturn('mocked-uuid-12345'); // ImageUpload ainda retorna string (imageUUID)
 
         $result = \RunwareImageUpload::uploadFromURL('https://example.com/image.png')
             ->run();

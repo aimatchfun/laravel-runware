@@ -9,6 +9,8 @@ use AiMatchFun\LaravelRunware\LaravelRunwareServiceProvider;
 use AiMatchFun\PhpRunwareSDK\OutputFormat;
 use AiMatchFun\PhpRunwareSDK\OutputType;
 use AiMatchFun\PhpRunwareSDK\ImageInference;
+use AiMatchFun\PhpRunwareSDK\RunwareResponse;
+use AiMatchFun\PhpRunwareSDK\RunwareImageResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -62,6 +64,15 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
 
     public function testFacadeCanBeMocked(): void
     {
+        $mockResponse = new RunwareResponse([
+            new RunwareImageResponse(
+                taskType: 'imageInference',
+                imageUUID: 'test-uuid',
+                taskUUID: 'test-task-uuid',
+                imageURL: 'https://example.com/mocked-image.png'
+            )
+        ]);
+
         \Runware::shouldReceive('positivePrompt')
             ->once()
             ->with('A beautiful sunset')
@@ -74,13 +85,14 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
 
         \Runware::shouldReceive('run')
             ->once()
-            ->andReturn('https://example.com/mocked-image.png');
+            ->andReturn($mockResponse);
 
         $result = \Runware::positivePrompt('A beautiful sunset')
             ->negativePrompt('blur')
             ->run();
 
-        $this->assertEquals('https://example.com/mocked-image.png', $result);
+        $this->assertInstanceOf(RunwareResponse::class, $result);
+        $this->assertEquals('https://example.com/mocked-image.png', $result->first()?->imageURL);
     }
 }
 
