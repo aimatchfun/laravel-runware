@@ -8,7 +8,7 @@ use AiMatchFun\LaravelRunware\LaravelRunwareFacade;
 use AiMatchFun\LaravelRunware\LaravelRunwareServiceProvider;
 use AiMatchFun\PhpRunwareSDK\OutputFormat;
 use AiMatchFun\PhpRunwareSDK\OutputType;
-use AiMatchFun\PhpRunwareSDK\TextToImage;
+use AiMatchFun\PhpRunwareSDK\ImageInference;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -44,7 +44,7 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
     {
         $runware = $this->app->make('runware.imageInference');
 
-        $this->assertInstanceOf(TextToImage::class, $runware);
+        $this->assertInstanceOf(ImageInference::class, $runware);
     }
 
     public function testFacadeCanCallMethods(): void
@@ -56,8 +56,8 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
             ->model('civitai:618692@691639')
             ->outputType(OutputType::URL);
 
-        // Just verify the facade returns a TextToImage instance with the methods callable
-        $this->assertInstanceOf(TextToImage::class, $result);
+        // Just verify the facade returns an ImageInference instance with the methods callable
+        $this->assertInstanceOf(ImageInference::class, $result);
     }
 
     public function testFacadeCanBeMocked(): void

@@ -79,7 +79,7 @@ $inpaintedImage = RunwareInpainting::seedImage('image-uuid')
 You can also inject the Runware instance directly:
 
 ```php
-use AiMatchFun\PhpRunwareSDK\TextToImage;
+use AiMatchFun\PhpRunwareSDK\ImageInference;
 use AiMatchFun\PhpRunwareSDK\Inpainting;
 use AiMatchFun\PhpRunwareSDK\RunwareModel;
 use AiMatchFun\PhpRunwareSDK\OutputType;
@@ -87,7 +87,7 @@ use AiMatchFun\PhpRunwareSDK\OutputType;
 class ImageController extends Controller
 {
     public function __construct(
-        private TextToImage $runware,
+        private ImageInference $runware,
         private Inpainting $inpainting
     ) {}
 

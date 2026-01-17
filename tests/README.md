@@ -40,7 +40,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Tests\TextToImageWrapper;
+use Tests\ImageInferenceWrapper;
 
 // Criar mock handler
 $mockHandler = new MockHandler();
@@ -48,11 +48,11 @@ $handlerStack = HandlerStack::create($mockHandler);
 $mockClient = new Client(['handler' => $handlerStack]);
 
 // Criar instância com mock
-$textToImage = new TextToImageWrapper('test-api-key');
-$textToImage->setMockClient($mockClient);
+$imageInference = new ImageInferenceWrapper('test-api-key');
+$imageInference->setMockClient($mockClient);
 
 // Registrar no container
-app()->instance('runware', $textToImage);
+app()->instance('runware', $imageInference);
 
 // Configurar resposta mockada
 $mockResponse = new Response(200, [], json_encode([
@@ -77,19 +77,19 @@ $result = \Runware::positivePrompt('A beautiful sunset')
 ### Opção 3: Usando Dependency Injection
 
 ```php
-use AiMatchFun\PhpRunwareSDK\TextToImage;
-use Tests\TextToImageWrapper;
+use AiMatchFun\PhpRunwareSDK\ImageInference;
+use Tests\ImageInferenceWrapper;
 
 // Em um controller ou service
 class ImageController extends Controller
 {
     public function __construct(
-        private TextToImage $runware
+        private ImageInference $runware
     ) {}
 
     public function generate()
     {
-        // Em testes, você pode injetar o TextToImageWrapper mockado
+        // Em testes, você pode injetar o ImageInferenceWrapper mockado
         $result = $this->runware
             ->positivePrompt('A beautiful sunset')
             ->run();
@@ -102,10 +102,10 @@ class ImageController extends Controller
 $mockHandler = new MockHandler();
 // ... configurar mock ...
 
-$textToImage = new TextToImageWrapper('test-api-key');
-$textToImage->setMockClient($mockClient);
+$imageInference = new ImageInferenceWrapper('test-api-key');
+$imageInference->setMockClient($mockClient);
 
-$controller = new ImageController($textToImage);
+$controller = new ImageController($imageInference);
 $response = $controller->generate();
 ```
 
@@ -123,7 +123,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Tests\TextToImageWrapper;
+use Tests\ImageInferenceWrapper;
 
 class ExampleTest extends TestCase
 {
@@ -144,10 +144,10 @@ class ExampleTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockClient = new Client(['handler' => $handlerStack]);
 
-        $textToImage = new TextToImageWrapper('test-api-key');
-        $textToImage->setMockClient($mockClient);
+        $imageInference = new ImageInferenceWrapper('test-api-key');
+        $imageInference->setMockClient($mockClient);
 
-        app()->instance('runware', $textToImage);
+        app()->instance('runware', $imageInference);
 
         // Resposta mockada
         $mockHandler->append(new Response(200, [], json_encode([
@@ -194,7 +194,7 @@ Certifique-se de ter configurado o arquivo `phpunit.xml`:
 
 ## Notas
 
-1. O `TextToImageWrapper` deve estar disponível nos testes. Você pode copiá-lo do pacote `php-runware-sdk` ou criar um helper compartilhado.
+1. O `ImageInferenceWrapper` deve estar disponível nos testes. Você pode copiá-lo do pacote `php-runware-sdk` ou criar um helper compartilhado.
 
 2. Use `Orchestra Testbench` para testar pacotes Laravel sem uma aplicação completa.
 

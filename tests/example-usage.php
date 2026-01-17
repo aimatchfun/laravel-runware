@@ -65,10 +65,10 @@ class ExampleTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockClient = new Client(['handler' => $handlerStack]);
 
-        $textToImage = new \Tests\TextToImageWrapper('test-api-key');
-        $textToImage->setMockClient($mockClient);
+        $imageInference = new \Tests\ImageInferenceWrapper('test-api-key');
+        $imageInference->setMockClient($mockClient);
 
-        app()->instance('runware', $textToImage);
+        app()->instance('runware', $imageInference);
 
         $mockHandler->append(new Response(200, [], json_encode([
             'data' => [['imageURL' => 'https://example.com/image.png']]
