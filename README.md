@@ -17,7 +17,7 @@ A Laravel wrapper for the [PHP Runware SDK](https://github.com/aimatchfun/php-ru
 
 ## Requirements
 
-- PHP ^8.3
+- PHP ^8.4
 - Laravel ^12.0
 - A valid Runware API key
 
