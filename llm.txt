@@ -1,0 +1,359 @@
+# Laravel Runware - Instruções de Uso
+
+## O que é a biblioteca?
+
+Laravel Runware é um wrapper Laravel para o SDK PHP Runware, uma biblioteca que facilita a integração de serviços de IA para geração e manipulação de imagens. Fornece acesso a funcionalidades como:
+
+- **ImageInference**: Gerar imagens a partir de prompts de texto
+- **Inpainting**: Editar partes específicas de imagens
+- **ImageUpload**: Fazer upload de imagens para o serviço Runware
+- **PhotoMaker**: Criar fotos com características específicas
+
+## Instalação e Configuração
+
+### 1. Instalação via Composer
+
+```bash
+composer require aimatchfun/laravel-runware
+```
+
+### 2. Configuração do Arquivo .env
+
+Adicione sua chave de API Runware no arquivo `.env`:
+
+```
+RUNWARE_API_KEY=sua_chave_api_aqui
+```
+
+### 3. Publicar Configuração (Opcional)
+
+Para customizar a configuração, publique o arquivo de config:
+
+```bash
+php artisan vendor:publish --provider="AiMatchFun\LaravelRunware\LaravelRunwareServiceProvider"
+```
+
+Isto criará um arquivo `config/runware.php` que você pode customizar.
+
+## Usando a Biblioteca
+
+### Usando os Facades (Recomendado)
+
+A biblioteca oferece facades (atalhos) para fácil acesso aos serviços. Registre os aliases em seu projeto:
+
+#### Aliases Disponíveis:
+- `RunwareImageInference` - Para gerar imagens
+- `RunwareInpainting` - Para editar imagens existentes
+- `RunwarePhotoMaker` - Para criar fotos
+- `RunwareImageUpload` - Para fazer upload de imagens
+
+### Exemplo 1: Gerar uma Imagem
+
+```php
+use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
+use AiMatchFun\PhpRunwareSDK\OutputType;
+
+// Forma simples - usando facade
+$result = Runware::positivePrompt('A beautiful sunset over the ocean')
+    ->negativePrompt('blur, distorted')
+    ->width(512)
+    ->height(512)
+    ->run();
+
+// Acessar a URL da imagem gerada
+if ($result->count() > 0) {
+    $imageUrl = $result->first()->imageURL;
+    echo "Imagem gerada: " . $imageUrl;
+}
+```
+
+### Exemplo 2: Usando Modelo Específico
+
+```php
+$result = Runware::positivePrompt('A portrait photograph')
+    ->negativePrompt('cartoon, sketch')
+    ->width(768)
+    ->height(768)
+    ->model('civitai:618692@691639') // Especificar modelo
+    ->outputType(OutputType::URL)
+    ->run();
+```
+
+### Exemplo 3: Acessar Serviço Diretamente
+
+```php
+use AiMatchFun\PhpRunwareSDK\ImageInference;
+
+// Resolver via service container
+$imageInference = app('runware.imageInference');
+
+$result = $imageInference
+    ->positivePrompt('A futuristic city landscape')
+    ->negativePrompt('people, cars')
+    ->width(1024)
+    ->height(512)
+    ->run();
+
+foreach ($result as $image) {
+    echo "UUID: " . $image->imageUUID . "\n";
+    echo "URL: " . $image->imageURL . "\n";
+}
+```
+
+### Exemplo 4: Usar em um Controlador Laravel
+
+```php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
+use AiMatchFun\PhpRunwareSDK\OutputType;
+
+class ImageController extends Controller
+{
+    public function generateImage(Request $request)
+    {
+        $prompt = $request->input('prompt');
+
+        try {
+            $result = Runware::positivePrompt($prompt)
+                ->width(512)
+                ->height(512)
+                ->outputType(OutputType::URL)
+                ->run();
+
+            if ($result->count() > 0) {
+                return response()->json([
+                    'success' => true,
+                    'image_url' => $result->first()->imageURL,
+                    'image_uuid' => $result->first()->imageUUID,
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Nenhuma imagem gerada'
+            ], 400);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao gerar imagem: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+}
+```
+
+## Métodos Disponíveis
+
+### ImageInference
+
+#### Métodos de Configuração:
+- `positivePrompt(string $prompt)` - Descrição do que deseja gerar
+- `negativePrompt(string $prompt)` - O que não deseja na imagem
+- `width(int $width)` - Largura da imagem em pixels
+- `height(int $height)` - Altura da imagem em pixels
+- `model(string $model)` - Modelo de IA a usar
+- `outputType(OutputType $type)` - Tipo de saída (URL, BASE64, etc)
+- `seedOffset(int $offset)` - Offset para o seed aleatório
+- `stylePreset(string $preset)` - Preset de estilo
+
+#### Métodos de Execução:
+- `run()` - Executar a requisição e retornar RunwareResponse
+
+### Inpainting
+
+Para editar partes de uma imagem existente:
+
+```php
+$result = app('runware.inpainting')
+    ->initImage('url_ou_base64_da_imagem')
+    ->maskImage('url_ou_base64_da_mascara')
+    ->positivePrompt('Mudanças desejadas')
+    ->negativePrompt('O que evitar')
+    ->width(512)
+    ->height(512)
+    ->run();
+```
+
+### ImageUpload
+
+Para fazer upload de imagens para processamento:
+
+```php
+$result = app('runware.imageUpload')
+    ->uploadImage('caminho/para/imagem.jpg')
+    ->run();
+```
+
+### PhotoMaker
+
+Para criar fotos com características específicas:
+
+```php
+$result = app('runware.photoMaker')
+    ->positivePrompt('Uma foto profissional')
+    ->negativePrompt('blur')
+    ->run();
+```
+
+## Estrutura da Resposta
+
+A resposta retornada é um objeto `RunwareResponse` contendo uma coleção de `RunwareImageResponse`:
+
+```php
+$result = Runware::positivePrompt('Uma imagem bonita')->run();
+
+// Acessar primeira imagem
+$firstImage = $result->first();
+if ($firstImage) {
+    echo "Task Type: " . $firstImage->taskType;        // ex: 'imageInference'
+    echo "Image UUID: " . $firstImage->imageUUID;      // ID único da imagem
+    echo "Task UUID: " . $firstImage->taskUUID;        // ID único da tarefa
+    echo "Image URL: " . $firstImage->imageURL;        // URL para acessar imagem
+}
+
+// Iterar todas as imagens
+foreach ($result as $image) {
+    // Processar cada imagem
+}
+
+// Verificar quantidade
+echo "Total de imagens: " . $result->count();
+```
+
+## Testando a Biblioteca
+
+### Com Orchestra Testbench
+
+```php
+use Orchestra\Testbench\TestCase;
+use AiMatchFun\LaravelRunware\LaravelRunwareServiceProvider;
+use AiMatchFun\PhpRunwareSDK\RunwareResponse;
+use AiMatchFun\PhpRunwareSDK\RunwareImageResponse;
+
+class ImageGenerationTest extends TestCase
+{
+    protected function getPackageProviders($app)
+    {
+        return [LaravelRunwareServiceProvider::class];
+    }
+
+    public function testGenerateImage()
+    {
+        config(['runware.api_key' => 'test-api-key']);
+
+        $mockResponse = new RunwareResponse([
+            new RunwareImageResponse(
+                taskType: 'imageInference',
+                imageUUID: 'test-uuid',
+                taskUUID: 'test-task-uuid',
+                imageURL: 'https://example.com/image.png'
+            )
+        ]);
+
+        \Runware::shouldReceive('positivePrompt')
+            ->with('A sunset')
+            ->andReturnSelf();
+
+        \Runware::shouldReceive('run')
+            ->andReturn($mockResponse);
+
+        $result = \Runware::positivePrompt('A sunset')->run();
+
+        $this->assertEquals('https://example.com/image.png', $result->first()?->imageURL);
+    }
+}
+```
+
+## Tratamento de Erros
+
+```php
+try {
+    $result = Runware::positivePrompt('A beautiful image')
+        ->width(512)
+        ->height(512)
+        ->run();
+
+} catch (\AiMatchFun\PhpRunwareSDK\Exception\ApiException $e) {
+    // Erro da API Runware
+    log()->error('Runware API Error: ' . $e->getMessage());
+
+} catch (\AiMatchFun\PhpRunwareSDK\Exception\ValidationException $e) {
+    // Erro de validação
+    log()->error('Validation Error: ' . $e->getMessage());
+
+} catch (\Exception $e) {
+    // Erro genérico
+    log()->error('Unexpected Error: ' . $e->getMessage());
+}
+```
+
+## Boas Práticas
+
+1. **Armazene chaves de API em variáveis de ambiente** - Nunca hardcode sua chave no código
+2. **Implemente cache** - Reutilize imagens geradas quando possível
+3. **Trate erros adequadamente** - A API pode ter rate limits ou falhas
+4. **Use filas para processamento em lote** - Para múltiplas gerações, use Laravel Queues
+5. **Monitore uso da API** - Controle quantas requisições está fazendo
+6. **Valide prompts** - Sanitize entrada de usuários antes de enviar à API
+
+## Exemplo com Queue (Tarefa em Background)
+
+```php
+namespace App\Jobs;
+
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
+
+class GenerateImageJob implements ShouldQueue
+{
+    use Dispatchable;
+
+    public function __construct(
+        public string $prompt,
+        public int $userId,
+    ) {}
+
+    public function handle(): void
+    {
+        try {
+            $result = Runware::positivePrompt($this->prompt)
+                ->width(512)
+                ->height(512)
+                ->run();
+
+            if ($result->count() > 0) {
+                $image = $result->first();
+                // Salvar na base de dados, etc
+                GeneratedImage::create([
+                    'user_id' => $this->userId,
+                    'prompt' => $this->prompt,
+                    'image_url' => $image->imageURL,
+                    'image_uuid' => $image->imageUUID,
+                ]);
+            }
+        } catch (\Exception $e) {
+            log()->error('Image generation failed: ' . $e->getMessage());
+        }
+    }
+}
+
+// Uso no controlador:
+GenerateImageJob::dispatch($prompt, auth()->id());
+```
+
+## Documentação e Referências
+
+- **PHP Runware SDK**: Consulte a documentação em https://github.com/aimatchfun/php-runware-sdk
+- **Arquivo de Configuração**: `config/runware.php`
+- **Testes de Exemplo**: `tests/LaravelRunwareFacadeTest.php`
+- **Facade Principal**: `src/LaravelRunwareFacade.php`
+
+## Support
+
+Para problemas ou dúvidas:
+- Abra uma issue no repositório: https://github.com/aimatchfun/laravel-runware
+- Consulte a documentação do PHP SDK
