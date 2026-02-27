@@ -1,10 +1,13 @@
 <?php
 
-namespace AiMatchFun\LaravelRunware;
+namespace AiMatchFun\LaravelRunware\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class RunwareInpaintingFacade extends Facade
+/**
+ * @mixin \AiMatchFun\PhpRunwareSDK\Inpainting
+ */
+class RunwareInpainting extends Facade
 {
     protected static function getFacadeAccessor()
     {

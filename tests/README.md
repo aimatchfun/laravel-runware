@@ -11,17 +11,17 @@ Os testes usam `Orchestra Testbench` para simular um ambiente Laravel completo.
 ### Opção 1: Mock do Facade (Mais Simples)
 
 ```php
-use Runware;
+use RunwareImageInference;
 use AiMatchFun\PhpRunwareSDK\RunwareResponse;
 use AiMatchFun\PhpRunwareSDK\RunwareImageResponse;
 
 // Mockar métodos do facade
-\Runware::shouldReceive('positivePrompt')
+\RunwareImageInference::shouldReceive('positivePrompt')
     ->once()
     ->with('A beautiful sunset')
     ->andReturnSelf();
 
-\Runware::shouldReceive('negativePrompt')
+\RunwareImageInference::shouldReceive('negativePrompt')
     ->once()
     ->with('blur')
     ->andReturnSelf();
@@ -35,11 +35,11 @@ $mockResponse = new RunwareResponse([
     )
 ]);
 
-\Runware::shouldReceive('run')
+\RunwareImageInference::shouldReceive('run')
     ->once()
     ->andReturn($mockResponse);
 
-$result = \Runware::positivePrompt('A beautiful sunset')
+$result = \RunwareImageInference::positivePrompt('A beautiful sunset')
     ->negativePrompt('blur')
     ->run();
 
@@ -83,10 +83,10 @@ $mockResponse = new Response(200, [], json_encode([
 $mockHandler->append($mockResponse);
 
         // Usar o facade normalmente
-        $result = \Runware::positivePrompt('A beautiful sunset')
+        $result = \RunwareImageInference::positivePrompt('A beautiful sunset')
             ->negativePrompt('blur')
             ->run();
-        
+
         // $result é uma instância de RunwareResponse
         $imageURL = $result->first()?->imageURL;
 ```
@@ -110,7 +110,7 @@ class ImageController extends Controller
         $result = $this->runware
             ->positivePrompt('A beautiful sunset')
             ->run();
-        
+
         // $result é uma instância de RunwareResponse
         return response()->json(['image' => $result->first()?->imageURL]);
     }
@@ -152,7 +152,7 @@ class ExampleTest extends TestCase
 
     protected function getPackageAliases($app)
     {
-        return ['Runware' => LaravelRunwareFacade::class];
+        return ['RunwareImageInference' => LaravelRunwareFacade::class];
     }
 
     public function testImageGeneration()
@@ -173,7 +173,7 @@ class ExampleTest extends TestCase
         ])));
 
         // Testar
-        $result = \Runware::positivePrompt('Test')
+        $result = \RunwareImageInference::positivePrompt('Test')
             ->negativePrompt('blur')
             ->run();
 
@@ -219,4 +219,3 @@ Certifique-se de ter configurado o arquivo `phpunit.xml`:
 2. Use `Orchestra Testbench` para testar pacotes Laravel sem uma aplicação completa.
 
 3. O mock do facade funciona bem para testes rápidos, mas o mock HTTP é mais realista para testes de integração.
-

@@ -148,11 +148,11 @@ For a complete list of available methods and their parameters, please refer to t
 ### Basic Image Generation (Text-to-Image)
 
 ```php
-use Runware;
+use RunwareImageInference;
 use AiMatchFun\PhpRunwareSDK\RunwareModel;
 use AiMatchFun\PhpRunwareSDK\OutputType;
 
-use RunwareImageInference;
+
 
 $imageUrl = RunwareImageInference::positivePrompt('A serene lake with mountains in the background')
     ->negativePrompt('blur, distortion')
@@ -191,6 +191,7 @@ echo $inpaintedImage;
 ```
 
 **Inpainting Parameters:**
+
 - `seedImage()`: The original image you wish to edit (UUID or URL)
 - `maskImage()`: Defines the area to be modified (UUID or URL)
 - `positivePrompt()`: Describes the desired outcome for the masked area
@@ -228,6 +229,7 @@ echo $imageUUID; // Use this UUID in inpainting or other image operations
 ```
 
 **Upload Methods:**
+
 - `uploadFromLocalPath(string $path)`: Upload an image from a local file path. The file is automatically converted to base64 format.
 - `uploadFromURL(string $url)`: Upload an image from a public URL.
 - The uploaded image can be referenced by its UUID in subsequent operations like inpainting, image enhancement, etc.
@@ -249,7 +251,6 @@ $imageUUID = $imageUpload->uploadFromURL('https://example.com/image.jpg')
 ```
 
 For more details about image upload, see the [Runware Image Upload Documentation](https://runware.ai/docs/en/image-inference/image-upload).
-
 
 ## Error Handling
 

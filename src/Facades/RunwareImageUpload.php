@@ -1,10 +1,13 @@
 <?php
 
-namespace AiMatchFun\LaravelRunware;
+namespace AiMatchFun\LaravelRunware\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class RunwareImageUploadFacade extends Facade
+/**
+ * @mixin \AiMatchFun\PhpRunwareSDK\ImageUpload
+ */
+class RunwareImageUpload extends Facade
 {
     protected static function getFacadeAccessor()
     {

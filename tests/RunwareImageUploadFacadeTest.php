@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use AiMatchFun\LaravelRunware\LaravelRunwareServiceProvider;
-use AiMatchFun\LaravelRunware\RunwareImageUploadFacade;
+use AiMatchFun\LaravelRunware\Facades\RunwareImageUpload;
 use AiMatchFun\PhpRunwareSDK\ImageUpload;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -33,7 +33,7 @@ class RunwareImageUploadFacadeTest extends TestbenchTestCase
     protected function getPackageAliases($app): array
     {
         return [
-            'RunwareImageUpload' => RunwareImageUploadFacade::class,
+            'RunwareImageUpload' => RunwareImageUpload::class,
         ];
     }
 

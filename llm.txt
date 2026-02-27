@@ -50,11 +50,11 @@ A biblioteca oferece facades (atalhos) para fácil acesso aos serviços. Registr
 ### Exemplo 1: Gerar uma Imagem
 
 ```php
-use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
+use RunwareImageInference;
 use AiMatchFun\PhpRunwareSDK\OutputType;
 
 // Forma simples - usando facade
-$result = Runware::positivePrompt('A beautiful sunset over the ocean')
+$result = RunwareImageInference::positivePrompt('A beautiful sunset over the ocean')
     ->negativePrompt('blur, distorted')
     ->width(512)
     ->height(512)
@@ -70,7 +70,7 @@ if ($result->count() > 0) {
 ### Exemplo 2: Usando Modelo Específico
 
 ```php
-$result = Runware::positivePrompt('A portrait photograph')
+$result = RunwareImageInference::positivePrompt('A portrait photograph')
     ->negativePrompt('cartoon, sketch')
     ->width(768)
     ->height(768)
@@ -106,7 +106,7 @@ foreach ($result as $image) {
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
+use RunwareImageInference;
 use AiMatchFun\PhpRunwareSDK\OutputType;
 
 class ImageController extends Controller
@@ -116,7 +116,7 @@ class ImageController extends Controller
         $prompt = $request->input('prompt');
 
         try {
-            $result = Runware::positivePrompt($prompt)
+            $result = RunwareImageInference::positivePrompt($prompt)
                 ->width(512)
                 ->height(512)
                 ->outputType(OutputType::URL)
@@ -203,7 +203,7 @@ $result = app('runware.photoMaker')
 A resposta retornada é um objeto `RunwareResponse` contendo uma coleção de `RunwareImageResponse`:
 
 ```php
-$result = Runware::positivePrompt('Uma imagem bonita')->run();
+$result = RunwareImageInference::positivePrompt('Uma imagem bonita')->run();
 
 // Acessar primeira imagem
 $firstImage = $result->first();
@@ -253,14 +253,14 @@ class ImageGenerationTest extends TestCase
             )
         ]);
 
-        \Runware::shouldReceive('positivePrompt')
+        \RunwareImageInference::shouldReceive('positivePrompt')
             ->with('A sunset')
             ->andReturnSelf();
 
-        \Runware::shouldReceive('run')
+        \RunwareImageInference::shouldReceive('run')
             ->andReturn($mockResponse);
 
-        $result = \Runware::positivePrompt('A sunset')->run();
+        $result = \RunwareImageInference::positivePrompt('A sunset')->run();
 
         $this->assertEquals('https://example.com/image.png', $result->first()?->imageURL);
     }
@@ -271,7 +271,7 @@ class ImageGenerationTest extends TestCase
 
 ```php
 try {
-    $result = Runware::positivePrompt('A beautiful image')
+    $result = RunwareImageInference::positivePrompt('A beautiful image')
         ->width(512)
         ->height(512)
         ->run();
@@ -306,7 +306,7 @@ namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use AiMatchFun\LaravelRunware\LaravelRunwareFacade as Runware;
+use RunwareImageInference;
 
 class GenerateImageJob implements ShouldQueue
 {
@@ -320,7 +320,7 @@ class GenerateImageJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            $result = Runware::positivePrompt($this->prompt)
+            $result = RunwareImageInference::positivePrompt($this->prompt)
                 ->width(512)
                 ->height(512)
                 ->run();
@@ -350,7 +350,7 @@ GenerateImageJob::dispatch($prompt, auth()->id());
 - **PHP Runware SDK**: Consulte a documentação em https://github.com/aimatchfun/php-runware-sdk
 - **Arquivo de Configuração**: `config/runware.php`
 - **Testes de Exemplo**: `tests/LaravelRunwareFacadeTest.php`
-- **Facade Principal**: `src/LaravelRunwareFacade.php`
+- **Facade de Inferência**: `src/Facades/RunwareImageInference.php`
 
 ## Support
 

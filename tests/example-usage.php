@@ -8,7 +8,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use AiMatchFun\LaravelRunware\LaravelRunwareFacade;
+
 use AiMatchFun\PhpRunwareSDK\ModelAir;
 use AiMatchFun\PhpRunwareSDK\OutputType;
 use AiMatchFun\PhpRunwareSDK\RunwareResponse;
@@ -39,12 +39,12 @@ class ExampleTest extends TestCase
     public function testWithMock()
     {
         // Opção 1: Mock do Facade (mais simples)
-        \Runware::shouldReceive('positivePrompt')
+        \RunwareImageInference::shouldReceive('positivePrompt')
             ->once()
             ->with('A beautiful sunset')
             ->andReturnSelf();
 
-        \Runware::shouldReceive('negativePrompt')
+        \RunwareImageInference::shouldReceive('negativePrompt')
             ->once()
             ->with('blur')
             ->andReturnSelf();
@@ -58,11 +58,11 @@ class ExampleTest extends TestCase
             )
         ]);
 
-        \Runware::shouldReceive('run')
+        \RunwareImageInference::shouldReceive('run')
             ->once()
             ->andReturn($mockResponse);
 
-        $result = \Runware::positivePrompt('A beautiful sunset')
+        $result = \RunwareImageInference::positivePrompt('A beautiful sunset')
             ->negativePrompt('blur')
             ->run();
 
@@ -85,7 +85,7 @@ class ExampleTest extends TestCase
             'data' => [['imageURL' => 'https://example.com/image.png']]
         ])));
 
-        $result = \Runware::positivePrompt('Test')
+        $result = \RunwareImageInference::positivePrompt('Test')
             ->negativePrompt('blur')
             ->run();
 

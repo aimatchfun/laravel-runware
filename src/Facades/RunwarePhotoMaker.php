@@ -1,10 +1,13 @@
 <?php
 
-namespace AiMatchFun\LaravelRunware;
+namespace AiMatchFun\LaravelRunware\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class RunwarePhotoMakerFacade extends Facade
+/**
+ * @mixin \AiMatchFun\PhpRunwareSDK\PhotoMaker
+ */
+class RunwarePhotoMaker extends Facade
 {
     protected static function getFacadeAccessor()
     {

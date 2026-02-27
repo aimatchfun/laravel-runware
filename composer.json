@@ -46,10 +46,10 @@
         "AiMatchFun\\LaravelRunware\\LaravelRunwareServiceProvider"
       ],
       "aliases": {
-        "RunwareImageInference": "AiMatchFun\\LaravelRunware\\RunwareImageInferenceFacade",
-        "RunwareInpainting": "AiMatchFun\\LaravelRunware\\RunwareInpaintingFacade",
-        "RunwareImageUpload": "AiMatchFun\\LaravelRunware\\RunwareImageUploadFacade",
-        "RunwarePhotoMaker": "AiMatchFun\\LaravelRunware\\RunwarePhotoMakerFacade"
+        "RunwareImageInference": "AiMatchFun\\LaravelRunware\\Facades\\RunwareImageInference",
+        "RunwareInpainting": "AiMatchFun\\LaravelRunware\\Facades\\RunwareInpainting",
+        "RunwareImageUpload": "AiMatchFun\\LaravelRunware\\Facades\\RunwareImageUpload",
+        "RunwarePhotoMaker": "AiMatchFun\\LaravelRunware\\Facades\\RunwarePhotoMaker"
       }
     }
   },

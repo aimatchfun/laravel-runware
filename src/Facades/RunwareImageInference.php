@@ -1,10 +1,13 @@
 <?php
 
-namespace AiMatchFun\LaravelRunware;
+namespace AiMatchFun\LaravelRunware\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class RunwareImageInferenceFacade extends Facade
+/**
+ * @mixin \AiMatchFun\PhpRunwareSDK\ImageInference
+ */
+class RunwareImageInference extends Facade
 {
     protected static function getFacadeAccessor()
     {

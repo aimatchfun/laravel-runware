@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use AiMatchFun\LaravelRunware\LaravelRunwareFacade;
+use AiMatchFun\LaravelRunware\Facades\RunwareImageInference;
 use AiMatchFun\LaravelRunware\LaravelRunwareServiceProvider;
 use AiMatchFun\PhpRunwareSDK\OutputFormat;
 use AiMatchFun\PhpRunwareSDK\OutputType;
@@ -23,7 +23,7 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Configurar a API key de teste
         config(['runware.api_key' => 'test-api-key']);
     }
@@ -38,7 +38,7 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
     protected function getPackageAliases($app): array
     {
         return [
-            'Runware' => LaravelRunwareFacade::class,
+            'RunwareImageInference' => RunwareImageInference::class,
         ];
     }
 
@@ -51,7 +51,7 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
 
     public function testFacadeCanCallMethods(): void
     {
-        $result = \Runware::positivePrompt('A beautiful sunset')
+        $result = \RunwareImageInference::positivePrompt('A beautiful sunset')
             ->negativePrompt('blur')
             ->width(512)
             ->height(512)
@@ -73,21 +73,21 @@ class LaravelRunwareFacadeTest extends TestbenchTestCase
             )
         ]);
 
-        \Runware::shouldReceive('positivePrompt')
+        \RunwareImageInference::shouldReceive('positivePrompt')
             ->once()
             ->with('A beautiful sunset')
             ->andReturnSelf();
 
-        \Runware::shouldReceive('negativePrompt')
+        \RunwareImageInference::shouldReceive('negativePrompt')
             ->once()
             ->with('blur')
             ->andReturnSelf();
 
-        \Runware::shouldReceive('run')
+        \RunwareImageInference::shouldReceive('run')
             ->once()
             ->andReturn($mockResponse);
 
-        $result = \Runware::positivePrompt('A beautiful sunset')
+        $result = \RunwareImageInference::positivePrompt('A beautiful sunset')
             ->negativePrompt('blur')
             ->run();
 
